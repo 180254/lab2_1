@@ -35,7 +35,7 @@ public class BinarySearchTest {
 		int[] seq = { 1 };
 		SearchResult sr = BinarySearch.search(1, seq);
 		assertThat(sr.isFound(), is(true));
-		
+		assertThat(sr.getPosition(), is(1));
 	}
 
 	@Test
@@ -43,10 +43,20 @@ public class BinarySearchTest {
 		int[] seq = { 1 };
 		SearchResult sr = BinarySearch.search(2, seq);
 		assertThat(sr.isFound(), is(false));
+		assertThat(sr.getPosition(), is(-1));
+
 	}
 
 	@Test
-	public void seqLenghtLongerThan1_shouldFoundAtIndex1() {
+	public void seqLenghtLongerThan1AndOdd_shouldFoundAtIndex1() {
+		int[] seq = { -3, 5, 6, 7, 9 };
+		SearchResult sr = BinarySearch.search(-3, seq);
+		assertThat(sr.isFound(), is(true));
+		assertThat(sr.getPosition(), is(1));
+	}
+
+	@Test
+	public void seqLenghtLongerThan1AndEven_shouldFoundAtIndex1() {
 		int[] seq = { -3, 5, 6, 7 };
 		SearchResult sr = BinarySearch.search(-3, seq);
 		assertThat(sr.isFound(), is(true));
@@ -54,25 +64,56 @@ public class BinarySearchTest {
 	}
 
 	@Test
-	public void seqLenghtLongerThan1_shouldFoundAtLastIndex() {
+	public void seqLenghtLongerThan1AndEven_shouldFoundAtLastIndex() {
 		int[] seq = { -3, 5, 6, 7 };
 		SearchResult sr = BinarySearch.search(7, seq);
 		assertThat(sr.isFound(), is(true));
 		assertThat(sr.getPosition(), is(seq.length));
 	}
-	
+
 	@Test
-	public void seqLenghtLongerThan1_shouldFoundAtMiddleIndex() {
+	public void seqLenghtLongerThan1AndOdd_shouldFoundAtLastIndex() {
+		int[] seq = { -3, 5, 6, 7, 9 };
+		SearchResult sr = BinarySearch.search(9, seq);
+		assertThat(sr.isFound(), is(true));
+		assertThat(sr.getPosition(), is(seq.length));
+	}
+
+	@Test
+	public void seqLenghtLongerThan1AndEven_shouldFoundAtMiddleIndex() {
 		int[] seq = { -3, 4, 5, 6, 7 };
 		SearchResult sr = BinarySearch.search(5, seq);
 		assertThat(sr.isFound(), is(true));
-		assertThat(sr.getPosition(), is((seq.length+1)/2));
+		assertThat(sr.getPosition(), is((seq.length + 1) / 2));
 	}
-	
+
 	@Test
-	public void seqLenghtLongerThan1__shouldNotFoundIndex() {
+	public void seqLenghtLongerThan1AndOdd_shouldFoundAtMiddleIndex() {
+		int[] seq = { -3, 4, 5, 6, 7, 9 };
+		SearchResult sr = BinarySearch.search(5, seq);
+		assertThat(sr.isFound(), is(true));
+		assertThat(sr.getPosition(), is((seq.length + 1) / 2));
+	}
+
+	@Test
+	public void seqLenghtLongerThan1AndEven_shouldNotFoundIndex() {
 		int[] seq = { -3, 4, 5, 6, 7 };
 		SearchResult sr = BinarySearch.search(10, seq);
 		assertThat(sr.isFound(), is(false));
+		assertThat(sr.getPosition(), is(-1));
+	}
+
+	@Test
+	public void seqLenghtLongerThan1AndOdd_shouldNotFoundIndex() {
+		int[] seq = { -3, 4, 5, 6, 7 };
+		SearchResult sr = BinarySearch.search(10, seq);
+		assertThat(sr.isFound(), is(false));
+		assertThat(sr.getPosition(), is(-1));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void seqLenght_shouldThrowException() {
+		int[] seq = {};
+		BinarySearch.search(1, seq);
 	}
 }
